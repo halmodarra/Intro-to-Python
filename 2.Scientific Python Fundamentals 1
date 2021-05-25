@@ -1,0 +1,250 @@
+##Assignment 1 - Linear Algebra
+
+#use your Jubterlab envioremnt and Numpy to solve the attached systems of equations. What values do you get for x,y, and z?
+#1
+3x + 5y = 6
+7x - 5y = 9
+
+import numpy as np
+A = np.array([[3,5],[7,-5]])
+print(A)
+B =  np.array([6,9])
+z = np.linalg.solve(A,B)
+print (z)
+
+#2
+x+y+z=6
+y+z=-4
+2x+5y -z = 27
+
+A2 = np.array([[1,1,1],[0,1,1],[2,5,-1]])
+print(A2)
+B2 = np.array([6,-4,27])
+z2 = np.linalg.solve(A2,B2)
+print(z2)
+
+#3.
+x+y=4
+2x+2y=8
+
+A3 = np.array([[1,1],[2,2]])
+print(A3)
+B3 = np.array([4,8])
+z3 = np.linalg.solve(A3,B3)
+print(z3)
+
+
+
+##Assignment 2
+#1. Print the numbers between 1 and 100 
+for i in range(2, 100):
+    print(i)
+
+    
+#2.Print the numbers between 1 and 100 divisible by 8
+for i in range(2, 100):
+    if( i%8==0):
+        print (i)
+        
+        
+ #3. Use a while loop to find the first 20 numbers divisible by 5
+start = 0
+end = 100
+for i in range(start, end+1):
+   if((i%5==0) & (i<100)):
+      print(i)
+      
+      
+#4. Here is an example funcation that adds two numbers
+def simple_adding_function (a,b):
+    return a + b
+#Create a funcation that evaluate if a number is prime ( you can not use a list of known primes) Only allow values between 0 and 100.
+
+for n in range(0,101):
+   if n > 1:
+       for i in range(2, n):
+           if (n % i) == 0:
+               break
+       else:
+           print(n)
+
+
+## Basic Functions I
+#1
+def a():
+    return 5
+print(a())
+
+
+#2
+def a():
+    return 5
+print(a()+a())
+
+
+#3
+def a():
+    return 5
+    return 10
+print(a())
+
+
+#4
+def a():
+    return 5
+    print(10)
+print(a())
+
+
+#5
+def a():
+    print(5)
+x = a()
+print(x)
+
+
+#6
+def a(b,c):
+    print(b+c)
+print(a(1,2) , a(2,3))
+
+
+#7
+def a(b,c):
+    return str(b)+str(c)
+print(a(2,5))
+
+
+#8
+def a():
+    b = 100
+    print(b)
+    if b < 10:
+        return 5
+    else:
+        return 10
+    return 7
+print(a())
+
+
+#9
+def a(b,c):
+    if b<c:
+        return 7
+    else:
+        return 14
+    return 3
+print(a(2,3))
+print(a(5,3))
+print(a(2,3) + a(5,3))
+
+
+#10
+def a(b,c):
+    return b+c
+    return 10
+print(a(3,5))
+
+
+#11
+b = 500
+print(b)
+def a():
+    b = 300
+    print(b)
+print(b)
+a()
+print(b)
+
+
+#12
+b = 500
+print(b)
+def a():
+    b = 300
+    print(b)
+    return b
+print(b)
+a()
+print(b)
+
+
+#13
+b = 500
+print(b)
+def a():
+    b = 300
+    print(b)
+    return b
+print(b)
+b=a()
+print(b)
+
+
+#14
+def a():
+    print(1)
+    b()
+    print(2)
+def b():
+    print(3)
+
+
+#15
+def a():
+    print(1)
+    x = b()
+    print(x)
+    return 10
+def b():
+    print(3)
+    return 5
+y = a()
+print(y)
+
+##Basic Functions II
+#1. Countdown - Create a function that accepts a number as an input. Return a new list that counts down by one, from the number (as the 0th element) down to 0 (as the last element). Example: countdown(5) should return the list: [5,4,3,2,1,0]
+def Countdown(n):
+    list = []
+    while n >= 0:
+        list.append(n)
+        n=n-1
+    return list      
+print(Countdown(5))
+
+
+#2. Print and Return - Create a function that will receive a list with two numbers. Print the first value and return the second. Example: print_and_return([1,2]) should print 1 and return 2
+def print_and_return(list):
+    print(list[0])
+    return list[1]
+print (print_and_return([1,2]))
+
+
+#3. First Plus Length - Create a function that accepts a list and returns the sum of the first value in the list plus the list's length. Example: first_plus_length([1,2,3,4,5]) should return 6 (first value: 1 + length: 5)
+def first_plus_length(list):
+    return len(list) + list[0]
+print(first_plus_length([1,2,3,4,5]))
+
+
+#4. This Length, That Value- Write a function that accepts two integers as parameters: size and value. The function should create and return a list whose length is equal to the given size, and whose values are all the given value. Example: length_and_value(4,7) should return [7,7,7,7] Example: length_and_value(6,2) should return [2,2,2,2,2,2]
+def this_length(size,value):
+    list = []
+    for i in range(size):
+        list.append(value)
+    return list
+print(this_length(6,2))
+
+
+#5. Values Greater than Second (Optional) - Write a function that accepts a list and creates a new list containing only the values from the original list that are greater than its 2nd value. Print how many values this is and then return the new list. If the list has less than 2 elements, have the function return False Example: values_greater_than_second([5,2,3,2,1,4]) should print 3 and return [5,3,4] Example: values_greater_than_second([3]) should return False
+def greater_than_second(list):
+    if len(list)<2:
+        return False
+    list2 = []
+    for i in list:
+        if i>list[1]:
+            list2.append(i)
+    print(len(list2))    
+    return list2
+print(greater_than_second([5,2,3,2,1,4]))
+print(greater_than_second([3]))
+

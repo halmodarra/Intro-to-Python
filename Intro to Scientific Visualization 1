@@ -1,0 +1,59 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+plt.style.use("seaborn")
+
+#Load the dataset
+df = pd.read_csv("/Users/halmodarra/Documents/SDA /Week 9 /burritos.csv", skiprows=1, header=None)
+
+#explor the dataset
+df.shape 
+df.info()
+df.columns
+df.head()
+
+# 1- Plot a histogram with bins=20 to see distribution of data before Handled NaN Values
+df[6].plot(kind="hist", bins=20, color='#5F9595')
+plt.title('Histogram of Column 6 before Handled NaN Values',fontsize=15)
+plt.xlabel('Value',fontsize=12)
+plt.ylabel('Frequency',fontsize=12)
+
+#2- Determine how many missing values are present in each column
+print("Total NaN at each column in a DataFrame:")
+df.isnull().sum()
+
+#3-Determine the total amount of missing values
+print("Total amount of missing values in a DataFrame:\n", df.isnull().sum().sum())
+
+#4-Choose a column and replace NaN values with the mean
+df.mean()
+df[7].fillna(int(df[7].mean()), inplace=True)
+df
+
+#5-Choose a column and replace NaN values with the median
+df.median()
+df[6].fillna(int(df[6].median()), inplace=True) 
+df
+
+#6-Choose a column and replace NaN values with the mode
+df.mode()
+df[12].fillna(int(df[12].mode()), inplace=True) 
+df
+
+#7-Choose a column and replace NaN values with your own value
+df[5].fillna("Halah", inplace=True) 
+df
+
+#8-Choose a column and use backwards filling
+df[4].fillna(method='bfill')
+df[4]
+
+#9-Choose a column and use forwards filling
+df[3].fillna(method='ffill')
+df[3]
+
+# 10- Plot a histogram with bins=20 to see distribution of data after Handled NaN Values
+df[6].plot(kind="hist", bins=20, color='#5F9595');
+plt.title('Histogram of Column 6 before Handled NaN Values',fontsize=15)
+plt.xlabel('Value',fontsize=12)
+plt.ylabel('Frequency',fontsize=12)

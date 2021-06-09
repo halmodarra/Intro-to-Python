@@ -1,0 +1,43 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns 
+
+import plotly.express as px
+import plotly.graph_objects as go
+from jupyter_dash import JupyterDash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+from datetime import date
+
+
+#df = pd.read_csv('/Users/halmodarra/Downloads/bollywood_full.csv')
+df = pd.read_csv('/Users/halmodarra/Downloads/friends_info.csv')
+df = pd.read_csv('/Users/halmodarra/Downloads/hotel_bookings.csv')
+
+df.head()
+
+
+app = JupyterDash(__name__)
+
+app.layout = html.Div([
+    html.Label('Hotel Type'),
+   dcc.Dropdown(
+    options=[
+        {'label': 'Resort Hotel', 'value': 'Resort Hotel'},
+        {'label': 'City Hotel', 'value': 'City Hotel'}
+    ],
+    value='Resort Hotel'
+), 
+    html.Label('Date Range'),
+    dcc.DatePickerRange(
+        month_format='MMM Do, YY',
+        end_date_placeholder_text='MMM Do, YY',
+        start_date=date(2015,7,1)
+    )  
+    
+])
+
+if __name__ == '__main__':
+    app.run_server(debug=True, port=8051)

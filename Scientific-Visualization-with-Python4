@@ -1,0 +1,61 @@
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly.express as px
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns 
+import plotly.graph_objects as go
+from jupyter_dash import JupyterDash
+from dash.dependencies import Input, Output
+
+
+df=pd.read_csv("/Users/halmodarra/Downloads/heart.csv")
+df.head()
+
+#df = px.data.iris() # iris is a pandas DataFrame
+fig = px.scatter(df, x="age", y="trtbps")
+fig
+
+fig1 = px.bar(df, x='age', y='sex')
+fig1.show()
+
+fig2 = px.histogram(df, x="thalachh")
+fig2.show()
+
+app = JupyterDash(__name__)
+
+app.layout = html.Div(children=[
+    html.H1(children='graphs of heart data set:'),
+   
+    dcc.Dropdown(id="slct_sex",
+                 options=[
+                     {"label": "Male", "value": 0},
+                     {"label": "Female", "value": 1}],
+                 multi=False,
+                 value=0,
+                 style={'width': "40%"}
+                 ),
+    
+    html.Br(),
+    html.Div(children='''
+        Dash: A web application framework for Python to show the plots.
+    '''),
+
+    dcc.Graph(
+        figure=fig
+    ),
+    
+    dcc.Graph(
+        figure=fig1
+    ),
+    dcc.Graph(
+        figure=fig2
+    )
+    
+    
+])
+
+if __name__ == '__main__':
+    app.run_server(mode='external')

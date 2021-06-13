@@ -12,32 +12,69 @@ from dash.dependencies import Input, Output
 from datetime import date
 
 
-#df = pd.read_csv('/Users/halmodarra/Downloads/bollywood_full.csv')
-df = pd.read_csv('/Users/halmodarra/Downloads/friends_info.csv')
-df = pd.read_csv('/Users/halmodarra/Downloads/hotel_bookings.csv')
-
-df.head()
 
 
-app = JupyterDash(__name__)
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.graph_objs as go
+import pandas as pd
+import logging
+
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s==%(funcName)s==%(message)s')
+
+hotel_data=pd.read_csv("/Users/halmodarra/Downloads/hotel_bookings.csv")
+
+
+app = dash.Dash()
+server = app.server
+app.title = 'Hotel Type Demand per year'
 
 app.layout = html.Div([
-    html.Label('Hotel Type'),
-   dcc.Dropdown(
-    options=[
-        {'label': 'Resort Hotel', 'value': 'Resort Hotel'},
-        {'label': 'City Hotel', 'value': 'City Hotel'}
-    ],
-    value='Resort Hotel'
-), 
+    dcc.Graph(id='hotel_graph',
+              config={'displayModeBar': False}),
+    html.Div([
+        dcc.Dropdown(id='select_hotel',
+                     multi=True,
+                     value=tuple(),
+                     placeholder='Search for a hotel(s)',
+                     options=[{'label': name, 'value': name}
+                              for name in sorted(hotel_data['hotel'].unique(), key=lambda s: (s, len(s)))]),
     html.Label('Date Range'),
-    dcc.DatePickerRange(
-        month_format='MMM Do, YY',
-        end_date_placeholder_text='MMM Do, YY',
-        start_date=date(2015,7,1)
-    )  
+        dcc.DatePickerRange( month_format='MMM Do, YY',
+                             end_date_placeholder_text='MMM Do, YY',
+                              start_date=date(2015,7,1)
+    ) 
     
-])
+    ], style={'width': '60%', 'margin-left': '20%'}),
+    html.Div([
+        html.Br() for x in range(5)
+    ])
+], style={'background-color': '#white', 'font-family': 'Palatino'})
+
+@app.callback(Output('hotel_graph', 'figure'),
+             [Input('select_names', 'value')])
+def plot_names_by_year(nameslist):
+    logging.info(msg=locals())
+    df = hotel_data[hotel_data['hotel'].isin(nameslist)].groupby(['arrival_date_year','hotel'])['lead_time'].sum().to_frame().reset_index()
+    return {
+        'data': [go.Scatter(x=df[df['hotel'] == n]['arrival_date_year'],
+                            y=df[df['hotel'] == n]['lead_time'],
+                            mode='markers',
+                            marker={'size': 10, 'opacity': 0.65},
+                            name=n)
+                 for n in nameslist],
+        'layout': go.Layout(title='Hotel Type Demand per year<br>',
+                            xaxis={'tickvals': [str(x) for x in range(2015, 2018, 1)],
+                                   'tickfont': {'size': 15}},
+                            yaxis={'tickfont': {'size': 15},
+                                   'zeroline': False},
+                            height=600,
+                            font={'family':'Palatino'})
+    }
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run_server(port=8095)
